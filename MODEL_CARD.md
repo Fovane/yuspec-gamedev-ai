@@ -17,6 +17,7 @@ notes.
 | `yuspec_60m_replay_cjk_v5_clean` | 59.08M parameter local model | Best GitHub issue benchmark checkpoint. |
 | `yuspec_60m_lora_teacher_v6_shaped` | 59.08M parameter local model + runtime shaping | Current best local GitHub issue assistant mode. |
 | `yuspec_60m_direct_commands_v2` | 59.08M parameter local model | Current best pure-model fallback for direct game-development commands. |
+| `yuspec_60m_compound_commands_v5` | 59.08M parameter local model | Current best pure-model fallback for multi-step object/collider/movement commands. |
 | `qwen2.5_0.5b_lora` | PEFT LoRA adapter | Fine-tuned from `Qwen/Qwen2.5-0.5B-Instruct`. |
 | `qwen2.5_7b` | External baseline | Ollama baseline used for issue-solving comparisons. |
 
@@ -52,6 +53,7 @@ Direct command spot checks, pure model output:
 |---|---|---|
 | `add wasd movement logic to the player object` | Unity | Produced valid `MonoBehaviour` WASD movement code. |
 | `sahneye kırmızı bir küp ekle` | Godot | Produced valid `MeshInstance3D` + `BoxMesh` + red material code. |
+| `create a capsule and its collider, give wasd movement logic to it for unity project.` | Unity | Produced a compile-ready capsule spawner plus `CharacterController` movement code. |
 | `add camera follow to player` | Unreal | Produced valid spring-arm camera setup snippet. |
 
 Interpretation: the raw 60M model is still capacity-limited, but the current

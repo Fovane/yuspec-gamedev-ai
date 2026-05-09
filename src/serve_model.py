@@ -465,7 +465,7 @@ def make_handler(model, tokenizer, examples, snippets, retrieval_threshold, snip
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--checkpoint", default="checkpoints/direct_game_commands_60m_v2/best.pt")
+    parser.add_argument("--checkpoint", default="checkpoints/compound_game_commands_60m_v5/best.pt")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8008)
     parser.add_argument("--example-jsonl", action="append", default=[

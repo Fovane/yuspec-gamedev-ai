@@ -20,7 +20,7 @@ separately with their own model card and data-source notes.
 Best 60M direct game-command model:
 
 ```text
-checkpoints/direct_game_commands_60m_v2/best.pt
+checkpoints/compound_game_commands_60m_v5/best.pt
 ```
 
 Best 60M GitHub issue model:

@@ -1,0 +1,28 @@
+model:
+  name: yuspec-gamedev-60m-compound-game-commands-v4
+  vocab_size: 16000
+  block_size: 1024
+  n_layer: 16
+  n_head: 8
+  n_embd: 512
+  dropout: 0.05
+  bias: false
+
+training:
+  batch_size: 1
+  gradient_accumulation_steps: 8
+  learning_rate: 0.000010
+  min_lr: 0.0000025
+  weight_decay: 0.04
+  max_iters: 720
+  warmup_iters: 60
+  eval_interval: 100
+  save_interval: 240
+  eval_iters: 10
+  use_amp: true
+  out_dir: checkpoints/compound_game_commands_60m_v4
+
+data:
+  train_bin: data/tokens_compound_game_commands_v4/train.bin
+  val_bin: data/tokens_compound_game_commands_v4/val.bin
+  tokenizer_path: tokenizer/tokenizer.json
