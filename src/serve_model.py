@@ -46,6 +46,15 @@ def build_prompt(prompt, domain):
     )
 
 
+def clean_model_answer(answer, prompt=""):
+    for marker in ("Neden:", "Muhtemel neden:", "Fix/patch plani:", "Sorun Analizi"):
+        index = answer.find(marker)
+        if index > 0:
+            answer = answer[index:]
+            break
+    return answer.replace("\ufffd", "").strip()
+
+
 def infer_domain(prompt, requested_domain):
     lowered = prompt.lower()
     for domain, hints in DOMAIN_HINTS.items():
@@ -335,11 +344,12 @@ def make_handler(model, tokenizer, examples, snippets, retrieval_threshold, snip
                 )
 
             decoded = tokenizer.decode(out[0].tolist())
+            answer = clean_model_answer(extract_answer(decoded, prompt), prompt)
             self._send_json(
                 200,
                 {
                     "domain": domain,
-                    "answer": extract_answer(decoded, prompt),
+                    "answer": answer,
                     "device": DEVICE,
                     "mode": "model",
                 },
@@ -353,7 +363,7 @@ def make_handler(model, tokenizer, examples, snippets, retrieval_threshold, snip
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--checkpoint", default="checkpoints/benchmark_realign_v4_round4/best.pt")
+    parser.add_argument("--checkpoint", default="checkpoints/github_issue_replay_cjk_60m_v5/best.pt")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8008)
     parser.add_argument("--example-jsonl", action="append", default=[

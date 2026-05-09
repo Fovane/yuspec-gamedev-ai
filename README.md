@@ -15,16 +15,22 @@ separately with their own model card and data-source notes.
 - Benchmarks against Qwen models.
 - GitHub issue benchmark tooling for permissive-license repositories.
 
-## Current Best Local 10M Checkpoint
+## Current Best Local Checkpoints
 
-Local path:
+Best 60M GitHub issue model:
+
+```text
+checkpoints/github_issue_replay_cjk_60m_v5/best.pt
+```
+
+Best 10M local engine model:
 
 ```text
 checkpoints/benchmark_realign_v4_round4/best.pt
 ```
 
-This checkpoint is intentionally ignored by git. Publish it separately if the
-training-data license review is complete.
+Large checkpoints are tracked with Git LFS or published separately as release
+artifacts. Keep private corpora and tokenized datasets out of git.
 
 ## Quick Start
 

@@ -1,0 +1,28 @@
+model:
+  name: yuspec-gamedev-60m-github-issue-replay-cjk-v5
+  vocab_size: 16000
+  block_size: 1024
+  n_layer: 16
+  n_head: 8
+  n_embd: 512
+  dropout: 0.04
+  bias: false
+
+training:
+  batch_size: 1
+  gradient_accumulation_steps: 8
+  learning_rate: 0.000012
+  min_lr: 0.000004
+  weight_decay: 0.04
+  max_iters: 360
+  warmup_iters: 40
+  eval_interval: 60
+  save_interval: 120
+  eval_iters: 8
+  use_amp: true
+  out_dir: checkpoints/github_issue_replay_cjk_60m_v5
+
+data:
+  train_bin: data/tokens_github_issue_replay_cjk_v5/train.bin
+  val_bin: data/tokens_github_issue_replay_cjk_v5/val.bin
+  tokenizer_path: tokenizer/tokenizer.json

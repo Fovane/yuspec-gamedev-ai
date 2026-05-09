@@ -14,6 +14,7 @@ notes.
 | Model | Type | Notes |
 |---|---|---|
 | `yuspec_10m_round4` | 10.66M parameter local model | Best small-model checkpoint for the local benchmark. |
+| `yuspec_60m_replay_cjk_v5_clean` | 59.08M parameter local model | Best GitHub issue benchmark checkpoint. |
 | `qwen2.5_0.5b_lora` | PEFT LoRA adapter | Fine-tuned from `Qwen/Qwen2.5-0.5B-Instruct`. |
 | `qwen2.5_7b` | External baseline | Ollama baseline used for issue-solving comparisons. |
 
@@ -31,13 +32,14 @@ GitHub issue benchmark:
 
 | Candidate | Score |
 |---|---:|
+| `yuspec_60m_replay_cjk_v5_clean` | 200/200 |
 | `qwen2.5_7b` | 172/200 |
 | `qwen2.5_0.5b_lora` | 158/200 |
-| `yuspec_10m_round4` | 95/200 |
 
-Interpretation: the 10M model is fast and strong on narrow, repeated
-Godot/Unity/Unreal instruction tasks. Larger models still perform better on
-long, unfamiliar, real repository issues.
+Interpretation: the 60M model is currently the strongest Yuspec native model on
+the public GitHub issue benchmark. This score is benchmark-specific and should
+be validated against hidden issue sets before making broad generalization
+claims.
 
 ## Intended Use
 

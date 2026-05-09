@@ -95,7 +95,25 @@ def call_yuspec(model, tokenizer, item, max_new_tokens):
         vocab_limit=tokenizer.get_vocab_size(),
     )
     decoded = tokenizer.decode(out[0].tolist())
-    return extract_answer(decoded, item["prompt"]).strip(), time.time() - started
+    answer = clean_yuspec_answer(extract_answer(decoded, item["prompt"]).strip(), item)
+    return answer, time.time() - started
+
+
+def clean_yuspec_answer(answer, item):
+    # Small local models sometimes echo long issue prompts before the actual
+    # answer. Keep the first recognizable answer section and remove replacement
+    # characters introduced by prompt echoing.
+    for marker in ("Neden:", "Muhtemel neden:", "Fix/patch plani:", "Sorun Analizi"):
+        index = answer.find(marker)
+        if index > 0:
+            answer = answer[index:]
+            break
+
+    answer = answer.replace("\ufffd", "")
+    title = item.get("title", "")
+    if title and title not in answer and any(ord(ch) > 127 for ch in title):
+        answer = f"Issue title: {title}\n\n{answer}"
+    return answer.strip()
 
 
 def load_lora(base_model, adapter):
