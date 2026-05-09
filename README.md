@@ -17,6 +17,12 @@ separately with their own model card and data-source notes.
 
 ## Current Best Local Checkpoints
 
+Best 60M direct game-command model:
+
+```text
+checkpoints/direct_game_commands_60m_v2/best.pt
+```
+
 Best 60M GitHub issue model:
 
 ```text
@@ -121,6 +127,14 @@ The current 60M checkpoint is paired with a domain-aware issue-answer
 postprocessor in `src/serve_model.py` and `eval/run_github_issue_benchmark.py`.
 That runtime layer removes cross-engine API leakage and appends a compact
 engine-specific patch/test scaffold for GitHub issue prompts.
+
+Direct command training:
+
+```powershell
+.\.venv\Scripts\python scripts\build_direct_game_command_sft.py --out data\instructions\direct_game_commands_v1.jsonl
+.\.venv\Scripts\python src\prepare_data.py --out-dir data\tokens_direct_game_commands_v1 --no-include-clean --instruction-glob data\instructions\direct_game_commands_v1.jsonl --instruction-glob data\instructions\multiengine_v2.jsonl --instruction-glob data\instructions\unreal5_examples_v1.jsonl
+.\.venv\Scripts\python src\train.py --config configs\direct_game_commands_60m.yaml --init-from checkpoints\github_issue_distill_60m_v1_fast\best.pt
+```
 
 ## Documentation
 

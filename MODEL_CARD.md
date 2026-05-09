@@ -16,6 +16,7 @@ notes.
 | `yuspec_10m_round4` | 10.66M parameter local model | Best small-model checkpoint for the local benchmark. |
 | `yuspec_60m_replay_cjk_v5_clean` | 59.08M parameter local model | Best GitHub issue benchmark checkpoint. |
 | `yuspec_60m_lora_teacher_v6_shaped` | 59.08M parameter local model + runtime shaping | Current best local GitHub issue assistant mode. |
+| `yuspec_60m_direct_commands_v2` | 59.08M parameter local model | Current best pure-model fallback for direct game-development commands. |
 | `qwen2.5_0.5b_lora` | PEFT LoRA adapter | Fine-tuned from `Qwen/Qwen2.5-0.5B-Instruct`. |
 | `qwen2.5_7b` | External baseline | Ollama baseline used for issue-solving comparisons. |
 
@@ -45,6 +46,14 @@ Hidden GitHub issue benchmark, local holdout:
 | `qwen2.5_0.5b_lora` | 138/160 |
 | `qwen2.5_7b` | 136/160 |
 
+Direct command spot checks, pure model output:
+
+| Prompt | Domain | Result |
+|---|---|---|
+| `add wasd movement logic to the player object` | Unity | Produced valid `MonoBehaviour` WASD movement code. |
+| `sahneye kırmızı bir küp ekle` | Godot | Produced valid `MeshInstance3D` + `BoxMesh` + red material code. |
+| `add camera follow to player` | Unreal | Produced valid spring-arm camera setup snippet. |
+
 Interpretation: the raw 60M model is still capacity-limited, but the current
 assistant stack combines the 60M checkpoint with domain-aware answer shaping.
 The hidden score above measures that deployed local stack, not only raw model
@@ -61,6 +70,10 @@ generalization claims.
 ## Limitations
 
 - The 10M model has limited reasoning capacity and context handling.
+- The 60M direct-command model is much better for short Godot/Unity/Unreal
+  coding commands than the issue-specialized checkpoint.
+- The 60M direct-command model is still fragile on exact Unreal C++ function
+  signatures and should be validated before applying generated patches.
 - It can overfit narrow benchmark examples.
 - It should not be trusted as the only reviewer for production patches.
 - Legal and license compatibility must be checked before redistributing any
