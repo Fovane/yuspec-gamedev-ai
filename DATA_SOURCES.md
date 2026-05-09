@@ -1,7 +1,9 @@
 # Data Sources and License Notes
 
-This repository is intended to publish code and reproducible data-preparation
-scripts. It should not blindly publish local corpora or model checkpoints.
+This repository publishes code, reproducible data-preparation scripts, selected
+synthetic instruction datasets, and selected model checkpoints through Git LFS.
+It should not publish private/local corpora or copied third-party documentation
+datasets.
 
 ## Safe to Reference in Docs
 
@@ -15,7 +17,8 @@ scripts. It should not blindly publish local corpora or model checkpoints.
 - `data/raw/`: downloaded third-party repositories or archives.
 - `data/clean/`: extracted corpora, including local project code.
 - `data/tokens*/`: binary tokenized datasets.
-- `checkpoints/`: model weights and optimizer-free checkpoint files.
+- Unreviewed model checkpoints. Only explicitly documented release checkpoints
+  should be tracked with Git LFS.
 - `logs/`: training and server logs.
 
 ## Unreal Documentation
@@ -35,6 +38,19 @@ publishing the adapter, include:
 - A clear list of training-data sources.
 - Any extra restrictions from the base model or training data.
 
+## Published Yuspec Checkpoints
+
+The public Yuspec checkpoints in this repository are native decoder-only GPT
+weights trained for local experimentation and lightweight fallback use:
+
+- `checkpoints/compound_game_commands_60m_v5/best.pt`
+- `checkpoints/github_issue_lora_teacher_60m_v6/best.pt`
+- `checkpoints/direct_game_commands_60m_v2/best.pt`
+- `checkpoints/github_issue_replay_cjk_60m_v5/best.pt`
+
+These checkpoints are not a guarantee of correctness. Generated code should be
+compiled, tested, and reviewed before use.
+
 ## Suggested Public Dataset Policy
 
 For a public `yuspec-gamedev-ai` release:
@@ -43,4 +59,5 @@ For a public `yuspec-gamedev-ai` release:
 2. Publish benchmark prompts with source repo/issue URLs.
 3. Publish only generated instruction data that you own or that is license
    compatible.
-4. Publish model weights separately with a model card and data-source notes.
+4. Publish model weights with Git LFS or as release artifacts, plus a model card
+   and data-source notes.

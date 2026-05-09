@@ -231,6 +231,10 @@
       <h1>Yuspec GameDev Chat</h1>
       <div class="controls">
         <label>
+          API
+          <input id="api" type="text" value="http://127.0.0.1:8009" />
+        </label>
+        <label>
           Domain
           <select id="domain">
             <option value="unity">Unity</option>
@@ -259,9 +263,9 @@
         <div class="msg">
           <div class="meta">
             <span class="pill good">ready</span>
-            <span>http://127.0.0.1:8008</span>
+            <span>http://127.0.0.1:8009</span>
           </div>
-          Unity, Unreal, Godot veya proje kodların hakkında soru yaz.
+          Unity, Unreal, Godot veya proje kodların hakkında soru yaz. Üretilen kodu projeye almadan önce derle, test et ve gözden geçir.
         </div>
       </div>
     </main>
@@ -275,7 +279,6 @@
   </div>
 
   <script>
-    const API = "http://127.0.0.1:8008";
     const messages = document.querySelector("#messages");
     const scroll = document.querySelector("#scroll");
     const form = document.querySelector("#form");
@@ -285,6 +288,7 @@
     const domainEl = document.querySelector("#domain");
     const modeEl = document.querySelector("#mode");
     const tokensEl = document.querySelector("#tokens");
+    const apiEl = document.querySelector("#api");
 
     function addMessage(role, text, meta = []) {
       const box = document.createElement("div");
@@ -323,7 +327,8 @@
       const domain = domainEl.value;
       const mode = modeEl.value;
       const maxTokens = Number(tokensEl.value || 360);
-      const url = `${API}/${mode}`;
+      const api = apiEl.value.replace(/\/+$/, "");
+      const url = `${api}/${mode}`;
       const payload = {
         domain,
         prompt,

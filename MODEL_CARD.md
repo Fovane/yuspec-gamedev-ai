@@ -5,9 +5,9 @@
 Yuspec GameDev AI is a small decoder-only Transformer project for game
 development assistance across Godot, Unity, and Unreal Engine.
 
-The repository code is MIT licensed. Model weights and training corpora should
-be published as separate release artifacts with their own source and license
-notes.
+The repository code is MIT licensed. Public checkpoints are distributed through
+Git LFS in this repository. Training corpora and derived datasets are documented
+in `DATA_SOURCES.md`; raw third-party corpora are not included.
 
 ## Current Local Models
 
@@ -30,6 +30,15 @@ Local engine benchmark:
 | `yuspec_10m_round4` | 100/100 |
 | `qwen2.5_0.5b_lora` | 99/100 |
 | `qwen2.5:0.5b` | 52/100 |
+
+Direct game-command benchmark:
+
+| Candidate | Score | Average | Avg latency |
+|---|---:|---:|---:|
+| `yuspec_60m_compound_v5` | 116/120 | 96.67% | 2.12s |
+| `qwen2.5_7b` | 102/120 | 85.00% | 62.99s |
+| `qwen2.5_0.5b_lora` | 90/120 | 75.00% | 17.69s |
+| `qwen2.5_0.5b` | 74/120 | 61.67% | 2.52s |
 
 GitHub issue benchmark:
 
@@ -56,11 +65,10 @@ Direct command spot checks, pure model output:
 | `create a capsule and its collider, give wasd movement logic to it for unity project.` | Unity | Produced a compile-ready capsule spawner plus `CharacterController` movement code. |
 | `add camera follow to player` | Unreal | Produced valid spring-arm camera setup snippet. |
 
-Interpretation: the raw 60M model is still capacity-limited, but the current
-assistant stack combines the 60M checkpoint with domain-aware answer shaping.
-The hidden score above measures that deployed local stack, not only raw model
-weights. Keep validating against fresh hidden issue sets before making broad
-generalization claims.
+Interpretation: `yuspec_60m_compound_v5` is the recommended pure-model release
+for short direct game-development commands. The issue-solving benchmark uses a
+separate issue-specialized stack with answer shaping. Keep validating against
+fresh hidden issue sets before making broad generalization claims.
 
 ## Intended Use
 

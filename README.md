@@ -1,10 +1,11 @@
 # Yuspec GameDev AI
 
 Small game-development language model experiments for Godot, Unity, and Unreal
-Engine.
+Engine. The current public release includes a 59.08M parameter direct-command
+model for lightweight self-hosted fallback usage.
 
-The code is MIT licensed. Model weights and datasets should be released
-separately with their own model card and data-source notes.
+The code is MIT licensed. Public model checkpoints are stored with Git LFS and
+documented in `MODEL_CARD.md` and `DATA_SOURCES.md`.
 
 ## What Is Included
 
@@ -62,10 +63,10 @@ Generate from a checkpoint:
 Run the local API:
 
 ```powershell
-.\.venv\Scripts\python src\serve_model.py --host 127.0.0.1 --port 8008
+.\.venv\Scripts\python src\serve_model.py --host 127.0.0.1 --port 8009
 ```
 
-Open `web_chat.html` in a browser and point it at `http://127.0.0.1:8008`.
+Open `web_chat.html` in a browser and point it at `http://127.0.0.1:8009`.
 
 ## Training
 
@@ -104,6 +105,21 @@ Larger RTX 4050 experiments:
 ```
 
 ## Benchmarks
+
+Direct command benchmark:
+
+```powershell
+.\.venv\Scripts\python eval\run_direct_command_benchmark.py
+```
+
+Latest direct command benchmark:
+
+| Candidate | Score | Avg latency |
+|---|---:|---:|
+| `yuspec_60m_compound_v5` | 116/120 | 2.12s |
+| `qwen2.5_7b` | 102/120 | 62.99s |
+| `qwen2.5_0.5b_lora` | 90/120 | 17.69s |
+| `qwen2.5_0.5b` | 74/120 | 2.52s |
 
 Engine benchmark:
 
