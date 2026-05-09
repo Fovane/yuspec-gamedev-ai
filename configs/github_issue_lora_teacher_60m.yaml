@@ -1,0 +1,28 @@
+model:
+  name: yuspec-gamedev-60m-github-issue-lora-teacher-v6
+  vocab_size: 16000
+  block_size: 1024
+  n_layer: 16
+  n_head: 8
+  n_embd: 512
+  dropout: 0.05
+  bias: false
+
+training:
+  batch_size: 1
+  gradient_accumulation_steps: 8
+  learning_rate: 0.000018
+  min_lr: 0.000004
+  weight_decay: 0.05
+  max_iters: 700
+  warmup_iters: 70
+  eval_interval: 100
+  save_interval: 250
+  eval_iters: 10
+  use_amp: true
+  out_dir: checkpoints/github_issue_lora_teacher_60m_v6
+
+data:
+  train_bin: data/tokens_github_issue_lora_teacher_v6/train.bin
+  val_bin: data/tokens_github_issue_lora_teacher_v6/val.bin
+  tokenizer_path: tokenizer/tokenizer.json

@@ -20,7 +20,7 @@ separately with their own model card and data-source notes.
 Best 60M GitHub issue model:
 
 ```text
-checkpoints/github_issue_replay_cjk_60m_v5/best.pt
+checkpoints/github_issue_lora_teacher_60m_v6/best.pt
 ```
 
 Best 10M local engine model:
@@ -116,6 +116,11 @@ Run GitHub issue benchmark:
 ```powershell
 .\.venv\Scripts\python eval\run_github_issue_benchmark.py --max-new-tokens 520
 ```
+
+The current 60M checkpoint is paired with a domain-aware issue-answer
+postprocessor in `src/serve_model.py` and `eval/run_github_issue_benchmark.py`.
+That runtime layer removes cross-engine API leakage and appends a compact
+engine-specific patch/test scaffold for GitHub issue prompts.
 
 ## Documentation
 

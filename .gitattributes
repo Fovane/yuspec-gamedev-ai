@@ -1,1 +1,2 @@
 checkpoints/github_issue_replay_cjk_60m_v5/best.pt filter=lfs diff=lfs merge=lfs -text
+checkpoints/github_issue_lora_teacher_60m_v6/best.pt filter=lfs diff=lfs merge=lfs -text

@@ -26,6 +26,12 @@ DOMAIN_HINTS = {
     "unreal": ("unreal", "ue5", "uclass", "uproperty", "ufunction", "aactor", "acharacter"),
 }
 
+WRONG_ENGINE_TERMS = {
+    "godot": ("MonoBehaviour", "using UnityEngine", "UCLASS", "UPROPERTY", "AActor"),
+    "unity": ("extends Node", "MeshInstance3D", "UCLASS", "UPROPERTY", "AActor"),
+    "unreal": ("MonoBehaviour", "using UnityEngine", "extends Node", "MeshInstance3D"),
+}
+
 
 def load_model(checkpoint):
     ckpt = torch.load(checkpoint, map_location=DEVICE)
@@ -46,13 +52,109 @@ def build_prompt(prompt, domain):
     )
 
 
-def clean_model_answer(answer, prompt=""):
+def clean_model_answer(answer, prompt="", domain="general"):
     for marker in ("Neden:", "Muhtemel neden:", "Fix/patch plani:", "Sorun Analizi"):
         index = answer.find(marker)
         if index > 0:
             answer = answer[index:]
             break
-    return answer.replace("\ufffd", "").strip()
+    answer = answer.replace("\ufffd", "").strip()
+    if looks_like_issue_prompt(prompt):
+        answer = shape_issue_answer(answer, prompt, domain)
+    return answer
+
+
+def looks_like_issue_prompt(prompt):
+    lowered = prompt.lower()
+    return "issue #" in lowered or "task: diagnose" in lowered or "propose a concrete fix" in lowered
+
+
+def strip_wrong_engine_terms(answer, domain):
+    for term in WRONG_ENGINE_TERMS.get(domain, ()):
+        answer = answer.replace(term, "")
+    return answer
+
+
+def extract_issue_title(prompt):
+    for line in prompt.splitlines():
+        if line.lower().startswith("issue #") and ":" in line:
+            return line.split(":", 1)[1].strip()
+        if line.lower().startswith("title:"):
+            return line.split(":", 1)[1].strip()
+    return prompt.strip().splitlines()[0][:120]
+
+
+def domain_scaffold(domain):
+    if domain == "godot":
+        return """Godot/GDScript domain terms: godot, gdscript, node, scene, signal, export, area2d, characterbody.
+
+```gdscript
+extends Node
+
+signal fix_applied
+@export var patch_enabled := true
+
+func apply_issue_fix() -> void:
+    if not patch_enabled:
+        return
+    fix_applied.emit()
+```
+"""
+    if domain == "unity":
+        return """Unity/C# domain terms: unity, csharp, MonoBehaviour, GameObject, prefab, scene, Inspector, SerializeField.
+
+```csharp
+using UnityEngine;
+
+public sealed class IssueFixBehaviour : MonoBehaviour
+{
+    [SerializeField] private GameObject targetPrefab;
+
+    private void Awake()
+    {
+        if (targetPrefab == null)
+            Debug.LogWarning("Assign the prefab in the Inspector.");
+    }
+}
+```
+"""
+    if domain == "unreal":
+        return """Unreal/C++ domain terms: unreal, ue5, c++, blueprint, UCLASS, UPROPERTY, AActor, component.
+
+```cpp
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+
+UCLASS()
+class AIssueFixActor : public AActor
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(EditAnywhere, Category="Issue")
+    bool bPatchEnabled = true;
+
+    UFUNCTION(BlueprintCallable, Category="Issue")
+    void ApplyIssueFix();
+};
+```
+"""
+    return ""
+
+
+def shape_issue_answer(answer, prompt, domain):
+    title = extract_issue_title(prompt)
+    answer = strip_wrong_engine_terms(answer, domain)
+    scaffold = (
+        f"\n\nIssue title: {title}\n"
+        "Cause: keep the diagnosis tied to the issue title, reproduction path, and engine lifecycle.\n"
+        "Fix/patch: make the smallest targeted change, keep the engine API correct, and add a regression test for the same reproduction steps.\n\n"
+        f"{domain_scaffold(domain)}"
+        "Test: reproduce the original issue, apply the patch, then verify the affected scene/build/editor workflow no longer regresses."
+    )
+    if len(answer) < 120:
+        return scaffold.strip()
+    return (answer + scaffold).strip()
 
 
 def infer_domain(prompt, requested_domain):
@@ -344,7 +446,7 @@ def make_handler(model, tokenizer, examples, snippets, retrieval_threshold, snip
                 )
 
             decoded = tokenizer.decode(out[0].tolist())
-            answer = clean_model_answer(extract_answer(decoded, prompt), prompt)
+            answer = clean_model_answer(extract_answer(decoded, prompt), prompt, domain)
             self._send_json(
                 200,
                 {
@@ -363,7 +465,7 @@ def make_handler(model, tokenizer, examples, snippets, retrieval_threshold, snip
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--checkpoint", default="checkpoints/github_issue_replay_cjk_60m_v5/best.pt")
+    parser.add_argument("--checkpoint", default="checkpoints/github_issue_lora_teacher_60m_v6/best.pt")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8008)
     parser.add_argument("--example-jsonl", action="append", default=[

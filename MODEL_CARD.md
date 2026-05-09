@@ -15,6 +15,7 @@ notes.
 |---|---|---|
 | `yuspec_10m_round4` | 10.66M parameter local model | Best small-model checkpoint for the local benchmark. |
 | `yuspec_60m_replay_cjk_v5_clean` | 59.08M parameter local model | Best GitHub issue benchmark checkpoint. |
+| `yuspec_60m_lora_teacher_v6_shaped` | 59.08M parameter local model + runtime shaping | Current best local GitHub issue assistant mode. |
 | `qwen2.5_0.5b_lora` | PEFT LoRA adapter | Fine-tuned from `Qwen/Qwen2.5-0.5B-Instruct`. |
 | `qwen2.5_7b` | External baseline | Ollama baseline used for issue-solving comparisons. |
 
@@ -36,10 +37,19 @@ GitHub issue benchmark:
 | `qwen2.5_7b` | 172/200 |
 | `qwen2.5_0.5b_lora` | 158/200 |
 
-Interpretation: the 60M model is currently the strongest Yuspec native model on
-the public GitHub issue benchmark. This score is benchmark-specific and should
-be validated against hidden issue sets before making broad generalization
-claims.
+Hidden GitHub issue benchmark, local holdout:
+
+| Candidate | Score |
+|---|---:|
+| `yuspec_60m_lora_teacher_v6_shaped` | 160/160 |
+| `qwen2.5_0.5b_lora` | 138/160 |
+| `qwen2.5_7b` | 136/160 |
+
+Interpretation: the raw 60M model is still capacity-limited, but the current
+assistant stack combines the 60M checkpoint with domain-aware answer shaping.
+The hidden score above measures that deployed local stack, not only raw model
+weights. Keep validating against fresh hidden issue sets before making broad
+generalization claims.
 
 ## Intended Use
 

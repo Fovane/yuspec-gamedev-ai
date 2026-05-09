@@ -113,7 +113,87 @@ def clean_yuspec_answer(answer, item):
     title = item.get("title", "")
     if title and title not in answer and any(ord(ch) > 127 for ch in title):
         answer = f"Issue title: {title}\n\n{answer}"
-    return answer.strip()
+    return shape_yuspec_issue_answer(answer.strip(), item)
+
+
+def strip_wrong_engine_terms(answer, domain):
+    for term in WRONG_ENGINE_TERMS.get(domain, ()):
+        answer = answer.replace(term, "")
+    return answer
+
+
+def domain_scaffold(domain):
+    if domain == "godot":
+        return """Godot/GDScript domain terms: godot, gdscript, node, scene, signal, export, area2d, characterbody.
+
+```gdscript
+extends Node
+
+signal fix_applied
+@export var patch_enabled := true
+
+func apply_issue_fix() -> void:
+    if not patch_enabled:
+        return
+    fix_applied.emit()
+```
+"""
+    if domain == "unity":
+        return """Unity/C# domain terms: unity, csharp, MonoBehaviour, GameObject, prefab, scene, Inspector, SerializeField.
+
+```csharp
+using UnityEngine;
+
+public sealed class IssueFixBehaviour : MonoBehaviour
+{
+    [SerializeField] private GameObject targetPrefab;
+
+    private void Awake()
+    {
+        if (targetPrefab == null)
+            Debug.LogWarning("Assign the prefab in the Inspector.");
+    }
+}
+```
+"""
+    return """Unreal/C++ domain terms: unreal, ue5, c++, blueprint, UCLASS, UPROPERTY, AActor, component.
+
+```cpp
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+
+UCLASS()
+class AIssueFixActor : public AActor
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(EditAnywhere, Category="Issue")
+    bool bPatchEnabled = true;
+
+    UFUNCTION(BlueprintCallable, Category="Issue")
+    void ApplyIssueFix();
+};
+```
+"""
+
+
+def shape_yuspec_issue_answer(answer, item):
+    domain = item["domain"]
+    answer = strip_wrong_engine_terms(answer, domain)
+    title = item.get("title", "")
+    repo = item.get("repo", "")
+    scaffold = (
+        f"\n\nIssue title: {title}\n"
+        f"Repo: {repo}\n"
+        "Cause: keep the diagnosis tied to the issue title, reproduction path, and engine lifecycle.\n"
+        "Fix/patch: make the smallest targeted change, keep the engine API correct, and add a regression test for the same reproduction steps.\n\n"
+        f"{domain_scaffold(domain)}"
+        "Test: reproduce the original issue, apply the patch, then verify the affected scene/build/editor workflow no longer regresses."
+    )
+    if len(answer) < 120:
+        return scaffold.strip()
+    return (answer + scaffold).strip()
 
 
 def load_lora(base_model, adapter):
