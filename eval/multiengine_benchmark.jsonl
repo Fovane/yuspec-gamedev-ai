@@ -1,0 +1,10 @@
+{"id":"godot_move_2d","domain":"godot","prompt":"Godot 4'te CharacterBody2D ile WASD hareket scripti yaz.","type":"code"}
+{"id":"godot_coin","domain":"godot","prompt":"Godot 4'te Area2D ile coin toplama sistemi nasıl yapılır?","type":"code"}
+{"id":"unity_move","domain":"unity","prompt":"Unity'de WASD ile CharacterController kullanan FPS hareket kodu yaz.","type":"code"}
+{"id":"unity_health","domain":"unity","prompt":"Unity'de Health component yaz.","type":"code"}
+{"id":"unity_coin","domain":"unity","prompt":"Unity'de coin toplama sistemi C# ile nasıl yapılır?","type":"code"}
+{"id":"unity_scriptable_object","domain":"unity","prompt":"Unity'de ScriptableObject ile item tanımı nasıl yapılır?","type":"code"}
+{"id":"unreal_character","domain":"unreal","prompt":"Unreal Engine C++ ile basit Character hareket sınıfı yaz.","type":"code"}
+{"id":"unreal_actor","domain":"unreal","prompt":"Unreal C++ ile Actor içinde rotating pickup yaz.","type":"code"}
+{"id":"unreal_reflection","domain":"unreal","prompt":"Unreal Engine'de UPROPERTY ve UFUNCTION ne işe yarar?","type":"explain"}
+{"id":"unreal_health","domain":"unreal","prompt":"Unreal C++ ile Health component yaz.","type":"code"}

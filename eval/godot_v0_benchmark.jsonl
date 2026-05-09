@@ -1,0 +1,8 @@
+{"id":"godot_move_2d","prompt":"Godot 4'te CharacterBody2D ile WASD hareket scripti yaz.","type":"code"}
+{"id":"godot_coin","prompt":"Godot 4'te Area2D ile coin toplama sistemi nasıl yapılır?","type":"code"}
+{"id":"godot_signal","prompt":"Godot'ta signal nedir ve ne zaman kullanılır?","type":"explain"}
+{"id":"godot_enemy_follow","prompt":"Godot 4'te düşmanın oyuncuyu takip etmesi için basit GDScript yaz.","type":"code"}
+{"id":"godot_camera","prompt":"Godot 4'te 2D kameranın oyuncuyu takip etmesini nasıl yaparım?","type":"explain"}
+{"id":"godot_health","prompt":"Godot'ta oyuncu can sistemi için Health component benzeri yapı kur.","type":"architecture"}
+{"id":"godot_error_nil","prompt":"Invalid get index on base Nil hatası ne demek?","type":"debug"}
+{"id":"godot_scene_arch","prompt":"Zelda tarzı 2D aksiyon RPG için Godot sahne mimarisi öner.","type":"architecture"}

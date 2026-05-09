@@ -1,0 +1,11 @@
+torch
+numpy
+tqdm
+pyyaml
+tokenizers
+datasets
+sentencepiece
+transformers
+accelerate
+faiss-cpu
+peft

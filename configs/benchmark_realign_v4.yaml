@@ -1,0 +1,27 @@
+model:
+  name: yuspec-gamedev-10m-benchmark-realign-v4
+  vocab_size: 16000
+  block_size: 1024
+  n_layer: 8
+  n_head: 4
+  n_embd: 256
+  dropout: 0.06
+  bias: false
+
+training:
+  batch_size: 4
+  gradient_accumulation_steps: 1
+  learning_rate: 0.000012
+  min_lr: 0.000003
+  weight_decay: 0.06
+  max_iters: 450
+  warmup_iters: 60
+  eval_interval: 75
+  save_interval: 150
+  eval_iters: 12
+  out_dir: checkpoints/benchmark_realign_v4
+
+data:
+  train_bin: data/tokens_benchmark_realign_v4/train.bin
+  val_bin: data/tokens_benchmark_realign_v4/val.bin
+  tokenizer_path: tokenizer/tokenizer.json

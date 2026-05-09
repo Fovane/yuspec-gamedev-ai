@@ -1,0 +1,25 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Training artifacts and model weights are released separately.
+checkpoints/
+*.pt
+*.safetensors
+
+# Local or redistributed datasets. Keep generation scripts in git, not corpora.
+data/raw/
+data/clean/
+data/tokens*/
+data/qwen_sft*/
+data/metadata/
+tokenizer/tokenizer.json
+
+# Runtime outputs.
+logs/
+eval/results*.jsonl
+eval/results*.md
+
+.DS_Store
+Thumbs.db

@@ -1,0 +1,27 @@
+model:
+  name: yuspec-gamedev-10m-multiengine-hard-realign-v3
+  vocab_size: 16000
+  block_size: 1024
+  n_layer: 8
+  n_head: 4
+  n_embd: 256
+  dropout: 0.08
+  bias: false
+
+training:
+  batch_size: 4
+  gradient_accumulation_steps: 1
+  learning_rate: 0.000018
+  min_lr: 0.000004
+  weight_decay: 0.08
+  max_iters: 1000
+  warmup_iters: 80
+  eval_interval: 125
+  save_interval: 250
+  eval_iters: 12
+  out_dir: checkpoints/multiengine_hard_realign_v3
+
+data:
+  train_bin: data/tokens_multiengine_hard_v3/train.bin
+  val_bin: data/tokens_multiengine_hard_v3/val.bin
+  tokenizer_path: tokenizer/tokenizer.json

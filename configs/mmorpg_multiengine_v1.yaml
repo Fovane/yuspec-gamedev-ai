@@ -1,0 +1,27 @@
+model:
+  name: yuspec-gamedev-10m-mmorpg-multiengine-v1
+  vocab_size: 16000
+  block_size: 1024
+  n_layer: 8
+  n_head: 4
+  n_embd: 256
+  dropout: 0.1
+  bias: false
+
+training:
+  batch_size: 4
+  gradient_accumulation_steps: 1
+  learning_rate: 0.000035
+  min_lr: 0.000006
+  weight_decay: 0.1
+  max_iters: 1400
+  warmup_iters: 80
+  eval_interval: 200
+  save_interval: 400
+  eval_iters: 10
+  out_dir: checkpoints/mmorpg_multiengine_v1
+
+data:
+  train_bin: data/tokens_mmorpg_multiengine_v1/train.bin
+  val_bin: data/tokens_mmorpg_multiengine_v1/val.bin
+  tokenizer_path: tokenizer/tokenizer.json

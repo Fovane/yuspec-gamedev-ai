@@ -1,0 +1,10 @@
+{"id":"godot_red_cube","domain":"godot","prompt":"Godot'ta sahneye bir küp ekle ve küpü kırmızı yap.","type":"code","expected":["MeshInstance3D","BoxMesh","StandardMaterial3D","albedo_color","Color.RED"]}
+{"id":"godot_move_2d","domain":"godot","prompt":"Godot 4'te CharacterBody2D ile WASD hareket scripti yaz.","type":"code","expected":["CharacterBody2D","Input.get_vector","velocity","move_and_slide"]}
+{"id":"godot_coin","domain":"godot","prompt":"Godot 4'te Area2D ile coin toplama sistemi nasıl yapılır?","type":"code","expected":["Area2D","body_entered","queue_free"]}
+{"id":"unity_character_controller","domain":"unity","prompt":"Unity'de WASD ile CharacterController kullanan FPS hareket kodu yaz.","type":"code","expected":["MonoBehaviour","CharacterController","Input.GetAxisRaw","controller.Move","Time.deltaTime"]}
+{"id":"unity_health","domain":"unity","prompt":"Unity'de Health component yaz.","type":"code","expected":["MonoBehaviour","SerializeField","TakeDamage","Mathf.Max","event"]}
+{"id":"unity_scriptable_item","domain":"unity","prompt":"Unity'de ScriptableObject ile item tanımı nasıl yapılır?","type":"code","expected":["ScriptableObject","CreateAssetMenu","Sprite","maxStack"]}
+{"id":"unreal_character","domain":"unreal","prompt":"Unreal Engine C++ ile basit Character hareket sınıfı yaz.","type":"code","expected":["ACharacter","SetupPlayerInputComponent","BindAxis","AddMovementInput"]}
+{"id":"unreal_health","domain":"unreal","prompt":"Unreal C++ ile Health component yaz.","type":"code","expected":["UActorComponent","UPROPERTY","UFUNCTION","BlueprintCallable","FMath::Clamp"]}
+{"id":"unreal_line_trace","domain":"unreal","prompt":"Unreal C++ ile line trace kullanarak crosshair yönüne ateş etme örneği yaz.","type":"code","expected":["LineTraceSingleByChannel","FHitResult","ECC_Visibility","DrawDebugLine","UCameraComponent"]}
+{"id":"unreal_trigger_box","domain":"unreal","prompt":"UE5 C++ TriggerBox begin overlap örneği ver.","type":"code","expected":["ATriggerBox","OnActorBeginOverlap","AddDynamic","UFUNCTION","BeginOverlap"]}
